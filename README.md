@@ -10,3 +10,5 @@ Run this command lines in your terminal to work the app perfectly
 2- npm install json-server 
 3- npx ng serve
 4- npx json-server -w data/pcinfo.json
+
+Test
