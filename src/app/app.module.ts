@@ -8,19 +8,25 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
-
+import { ErpComponent } from './components/erp/erp.component';
+import { AddInfoComponent } from './components/add-info/add-info.component';
 
 const appRoutes: Routes = [
   { 
     path: '', 
     component: AppComponent,
   },
+  {
+    path: 'erp',
+    component: ErpComponent
+  },
 ];
 
 @NgModule({
   declarations: [
     AppComponent, 
-
+    ErpComponent,
+    AddInfoComponent,
   ],
   imports: [
     BrowserModule,

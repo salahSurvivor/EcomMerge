@@ -1,4 +1,9 @@
 module.exports = app => {
+    const ordersController = require('./controllers/orderController');
 
-    //#endregion Losses
+    //#region Orders
+
+    app.post('/orders', ordersController.createData); // Create Data
+
+    //#endregion Orders
 };

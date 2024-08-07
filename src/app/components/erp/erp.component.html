@@ -1,0 +1,22 @@
+<div class="erp-container container">
+    <div class="row">
+        <div class="col-lg-4">
+        </div>
+        <div class="col-lg-4">
+            <div class="label-edit text-center">
+                Add Product And Customer Information 
+            </div>
+            <app-add-info (addInfo)="AddInfo($event)"></app-add-info>
+        </div>
+        <div class="col-lg-4">
+        </div>
+    </div>
+</div>
+
+<!--Success Section Start-->
+<div *ngIf="successShow" class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="fa-solid fa-check"></i>
+    The {{ successText }} Has Been Added!!
+    <button type="button" class="btn-close" (click)="toggleSuccess()"></button>
+  </div>
+<!--Success Section End-->          
