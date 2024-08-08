@@ -35,4 +35,13 @@ export class ErpComponent{
     });
   }
 
+  AddLosses(data): void{
+    this.mainService.addLosses(data).subscribe((res) => {
+      if (res) {
+        this.successText = 'Losses';
+        this.successShow = true;
+      }
+    });
+  }
+
 }

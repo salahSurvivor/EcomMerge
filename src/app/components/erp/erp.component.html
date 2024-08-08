@@ -1,6 +1,18 @@
 <div class="erp-container container">
     <div class="row">
         <div class="col-lg-4">
+            <div class="button-a">
+                <input 
+                    class="btn btn-info" 
+                    [ngClass]="lossesShow ? 'btn-danger' : 'btn-info'" 
+                    type="button" 
+                    [value]="lossesShow ? 'Close' : 'Add Losses'"
+                    (click)="toggleLosses()"/>
+            </div>
+            <app-add-losses 
+                [lossesShow]="lossesShow"
+                (addLosses)="AddLosses($event)">
+            </app-add-losses>
         </div>
         <div class="col-lg-4">
             <div class="label-edit text-center">
@@ -11,7 +23,7 @@
         <div class="col-lg-4">
         </div>
     </div>
-</div> 
+</div>
 
 <!--Success Section Start-->
 <div *ngIf="successShow" class="alert alert-success alert-dismissible fade show" role="alert">
