@@ -1,0 +1,82 @@
+body{
+    background: rgb(245, 245, 245);
+}
+/*Start Our NavBar*/
+.navbar{
+    padding: 20px;
+}
+
+.navbar .nav-link{
+    font-size: 1.1em;
+}
+
+.navbar-nav{
+    position: absolute;
+    right: 100px;
+}
+/*End Our NavBar*/
+
+
+/*Start Our Home*/
+.home-container{
+    margin: 50px auto;
+}
+
+.home-container p{
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.erp-form-info{
+    padding: 16px;
+}
+
+.home-container .erp-form{
+    display: inline-block;
+    width: 25%;
+    margin: 0 25px;
+    border-radius: 16px;
+}
+
+.erp-form-redirect{
+    background: #fff;
+    padding: 16px;
+    border-radius: 0px 0px 14px 14px;
+}
+/*End Our Home*/
+
+/*Start Our Erp Page*/
+.erp-container{
+    margin: 50px auto;
+}
+
+.erp-container .button-a{
+    margin-bottom: 25px;
+}
+
+.erp-container form{
+    background: #fff;
+    margin: 26px 0;
+    padding: 26px;
+    border-radius: 16px;
+}
+
+.label-edit{
+    background: #fff;
+    color: rgb(7, 182, 182);
+    padding: 8px;
+    border-radius: 12px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+/*End Our Erp Page*/
+
+/*Erp Show Start*/
+.showErp-container{
+    margin: 100px auto;
+}
+
+.search{
+    float: right;
+    width: 300px;
+}

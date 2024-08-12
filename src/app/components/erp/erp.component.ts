@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MainService } from 'src/app/services/main.service'; 
+import { Purchases } from 'src/app/purchases';
 
 @Component({
   selector: 'app-erp',
@@ -39,6 +40,15 @@ export class ErpComponent{
     this.mainService.addLosses(data).subscribe((res) => {
       if (res) {
         this.successText = 'Losses';
+        this.successShow = true;
+      }
+    });
+  }
+
+  addPurchases(data: Purchases): void{
+    this.mainService.addPurchases(data).subscribe((res) => {
+      if (res) {
+        this.successText = 'Bulk Purchases';
         this.successShow = true;
       }
     });

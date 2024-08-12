@@ -11,6 +11,8 @@ import { AppComponent } from './app.component';
 import { ErpComponent } from './components/erp/erp.component';
 import { AddInfoComponent } from './components/add-info/add-info.component';
 import { AddLossesComponent } from './components/add-losses/add-losses.component';
+import { AddPurchasesComponent } from './components/add-purchases/add-purchases.component';
+import { HeaderComponent } from './components/header/header.component';
 
 const appRoutes: Routes = [
   { 
@@ -28,7 +30,9 @@ const appRoutes: Routes = [
     AppComponent, 
     ErpComponent,
     AddInfoComponent,
-    AddLossesComponent
+    AddLossesComponent,
+    AddPurchasesComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

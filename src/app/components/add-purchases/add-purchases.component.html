@@ -1,0 +1,64 @@
+<form [formGroup]="purchasesForm" *ngIf="purchasesShow" (ngSubmit)="onSubmit()">
+    <div class="form-group mb-3">
+        <div class="input-group">
+            <span class="input-group-text" id="basic-addon1">
+                <i class="fa-solid fa-pen-nib"></i>
+            </span>
+            <input 
+                type="text" 
+                name="nameP" 
+                formControlName="nameP"
+                [(ngModel)]="nameP"  
+                class="form-control" 
+                placeholder="Product Name" 
+                aria-label="Username" 
+                aria-describedby="basic-addon1"
+                required />
+        </div>
+        <div class="form-text text-danger" *ngIf="NameP.touched || NameP.dirty">
+            <p *ngIf="NameP.errors?.['required']">Name is required</p>
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="input-group">
+            <span class="input-group-text" id="basic-addon1">
+                <i class="fa-solid fa-money-bill"></i>
+            </span>
+            <input 
+                type="text" 
+                name="priceP"
+                formControlName="priceP" 
+                [(ngModel)]="priceP"  
+                class="form-control" 
+                placeholder="Product Price" aria-label="Username" aria-describedby="basic-addon1" required/>
+        </div>
+        <div class="form-text text-danger" *ngIf="PriceP.touched || PriceP.dirty">
+            <p *ngIf="PriceP.errors?.['required']">Price is required</p>
+            <p *ngIf="PriceP.errors?.['pattern']">Please provide a valid price</p>
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="input-group">
+            <span class="input-group-text" id="basic-addon1">
+                <i class="fa-solid fa-q"></i>
+            </span>
+            <input 
+                type="text" 
+                name="quantityP"
+                formControlName="quantityP" 
+                [(ngModel)]="quantityP" 
+                class="form-control" 
+                placeholder="Product Quantity" aria-label="Username" aria-describedby="basic-addon1"  required/>
+        </div>
+        <div class="form-text text-danger" *ngIf="QuantityP.touched || QuantityP.dirty">
+            <p *ngIf="QuantityP.errors?.['required']">Quantity is required</p>
+            <p *ngIf="QuantityP.errors?.['pattern']">Please provide a valid quantity</p>
+        </div>
+    </div>
+
+    <div class="input-group mb-3">
+        <input type="submit" class="btn btn-success" value="Add" [disabled]="purchasesForm.invalid"/>
+    </div>
+</form>
