@@ -9,7 +9,7 @@ module.exports = app => {
 
     //#endregion Orders
 
-    //#region Losses
+    //#region Losses 
 
     app.post('/losses', lossessController.createData); // Create Data
 
