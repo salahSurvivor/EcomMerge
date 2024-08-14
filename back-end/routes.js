@@ -9,17 +9,25 @@ module.exports = app => {
 
     //#endregion Orders
 
-    //#region Losses 
+     //#region Losses
+     app.get('/losses', lossessController.readData); // Read Data
 
-    app.post('/losses', lossessController.createData); // Create Data
-
-    //#endregion Losses
-
-    //#region Purchase
-
-    app.post('/purchases', purchasesController.createData); // Create Data
-
-    //#endregion Purchase
+     app.post('/losses', lossessController.createData); // Create Data
+     
+     app.put('/losses/:id', lossessController.updateData); // Update Data
+     
+     app.delete('/losses/:_id', lossessController.deleteData); // Delete Data
+     //#endregion Losses
+ 
+     //#region Purchase
+     app.get('/purchases', purchasesController.readData); // Read Data
+ 
+     app.post('/purchases', purchasesController.createData); // Create Data
+          
+     app.put('/purchases/:id', purchasesController.updateData); // Update Data
+          
+     app.delete('/purchases/:id', purchasesController.deleteData); // Delete Data
+     //#endregion Purchase
 
 
 };

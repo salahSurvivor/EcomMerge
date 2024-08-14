@@ -1,0 +1,55 @@
+
+<div class="lsPr-title">
+    <p>Losses Table</p>
+</div>
+<table>
+    <tr>
+        <th>N.L</th>
+        <th>Losses Name</th>
+        <th>Losses Date</th>
+        <th>Losses Price</th>
+        <th>Actions</th>
+    </tr>
+    <tr *ngFor="let losse of losses | paginate: { itemsPerPage: count, currentPage: p }">
+        <td>{{ losse.number }}</td>
+        <td>{{ losse.name }}</td>
+        <td>{{ losse.date | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ losse.price }} DH</td>
+        <td (click)="getId(losse._id, losse.price)">
+            <i class="fa-solid fa-trash btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+        </td>
+    </tr>
+</table>
+
+<!--Including the pagination control.-->
+<div class="text-center">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+
+ <!-- Modal -->
+ <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Purchases</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <i class="fa-solid fa-triangle-exclamation text-warning"></i>
+            Are You Sure You Want To Delete This ?? 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button 
+            type="button" 
+            class="btn btn-danger" 
+            data-bs-dismiss="modal"
+            (click)="deleteLosses()">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

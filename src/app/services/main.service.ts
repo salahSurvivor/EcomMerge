@@ -29,14 +29,32 @@ export class MainService {
   //#endregion Orders
 
   //#region Losses
-  addLosses(data: Losses): Observable<Losses> {
+  getLosses(): Observable<Losses[]>{
+    let params = { sCode: 'admin' };
+    return this.http.get<Losses[]>(this.apiUrlLosses, { params });
+  }
+
+  addLosses(data: Losses): Observable<Losses>{
     return this.http.post<Losses>(this.apiUrlLosses, data);
+  }  
+
+  deleteLosses(nb: number): Observable<Losses>{
+    return this.http.delete<Losses>(this.apiUrlLosses+ nb);
   }
   //#endregion Losses
 
   //#region Purchases
-  addPurchases(data: Purchases): Observable<Purchases> {
+  getPurchases(): Observable<Purchases[]>{
+    let params = { sCode: 'admin' };
+    return this.http.get<Purchases[]>(this.Url, { params });
+  }
+
+  addPurchases(data: Purchases): Observable<Purchases>{
     return this.http.post<Purchases>(this.Url, data);
+  }   
+
+  deletePurchase(nb: number): Observable<Purchases>{
+    return this.http.delete<Purchases>(this.Url+ nb);
   }
   //#endregion Purchases
 

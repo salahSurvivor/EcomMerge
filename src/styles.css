@@ -80,3 +80,87 @@ body{
     float: right;
     width: 300px;
 }
+
+.showErp-container table{
+    width: 100%;
+    text-align: center;
+}
+
+.showErp-container table tr th{
+    background: rgb(74, 187, 253);
+    padding: 15px;
+}
+
+.showErp-container table tr td{
+    background: #fff;
+    text-align: center;
+    padding: 15px;
+}
+
+.alert{
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 300px;
+}
+
+.form-edit{
+    margin: 26px auto;
+}
+/*Erp Show End*/
+
+/*Losses And Purchases Start*/
+.ls-pr{
+    margin: 50px auto;
+}
+
+.ls-pr .lsPr-title{
+    color: rgb(2, 152, 202);
+    font-weight: bold;
+    width: 100%;
+    max-width: auto;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.ls-pr .lsPr-title p{
+    width: 50%;
+    margin: auto;
+    padding: 18px;
+    background: #fff;
+    border-radius: 16px;
+}
+
+.showErp-container-edit{
+    margin: 50px auto;
+}
+/*Losses And Purchases End*/
+
+/*Pagination Edit Start*/
+.ngx-pagination .current{
+    margin: 16px auto;
+}
+/*Pagination Edit End*/
+
+@media(max-width: 992px){
+    .navbar-nav{
+        position: relative;
+        right: 0;
+    }
+
+    .navbar-nav li{
+        margin: 3px 0;
+    }   
+
+    /*Home Page Start*/
+    .home-container .erp-form{
+        margin: 45px auto;
+        width: 60%;
+        display: block;
+    }
+
+    .home-container br{
+        display: none;
+    }    
+    /*Home Page End*/
+}

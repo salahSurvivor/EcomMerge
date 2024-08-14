@@ -1,0 +1,62 @@
+<div class="showErp-container showErp-container-edit container">
+    <button type="button" class="btn btn-info float-end" data-bs-toggle="modal" data-bs-target="#filter">
+        Filter
+    </button>
+    <div class="row">
+        <div class="ls-pr col-lg-6">
+            <app-show-losses [ls]="ls" (dltL)="deleteLosses()"></app-show-losses>
+        </div>
+        <div class="ls-pr col-lg-6">
+            <app-show-purchases [pr]="pr" (dltP)="deletePurchase()"></app-show-purchases>
+        </div>
+    </div>
+</div>
+
+<!--Success Section Start-->
+<div *ngIf="successShow" class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="fa-solid fa-check"></i>
+    deleted successfully !!
+    <button type="button" class="btn-close" (click)="toggleSuccess()"></button>
+  </div>
+<!--Success Section End-->     
+
+
+
+ <!-- Modal -->
+ <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Filter By Date</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <strong>Losses :</strong><br /><br />
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="date" name="losses" [(ngModel)]="losses" class="form-control" placeholder="Phone Number" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <strong>Purchases :</strong><br /><br />
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="date" name="purchases" [(ngModel)]="purchases" class="form-control" placeholder="Phone Number" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-info" (click)="clear()" data-bs-dismiss="modal">Clear</button>
+          <button type="button" class="btn btn-success text-white" data-bs-dismiss="modal" (click)="filter()">Filter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+
+
+
+
+
