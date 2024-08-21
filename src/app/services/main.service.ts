@@ -26,6 +26,11 @@ export class MainService {
   addOrder(data: Pcinfo): Observable<Pcinfo> {
     return this.http.post<Pcinfo>(this.apiUrl, data);
   }
+
+  getOrdersProfits(): Observable<any>{
+    let params = { sCode: 'admin' };
+    return this.http.get<any>('http://localhost:3000/ordersProfits', { params });
+  }
   //#endregion Orders
 
   //#region Losses

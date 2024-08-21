@@ -1,0 +1,45 @@
+<div class="home-container">
+    <!--app-total-profits></app-total-profits>
+    <br><br><br>
+    <app-month-profits></app-month-profits>
+    <app-day-profits></app-day-profits-->
+    <div class="erp-form bg-success">
+        <div class="erp-form-info">
+            <h3>{{ totalProfits }} MAD</h3>
+            <p>Total Profits</p>
+        </div>
+        <div class="erp-form-redirect text-secondary">
+            <a routerLink="addErp" class="text-secondary">More Info</a>
+        </div>
+    </div>
+    <div class="erp-form bg-info">
+        <div class="erp-form-info">
+            <h3>{{ totalMoney }} MAD</h3>
+            <p>Total Money</p>
+        </div>
+        <div class="erp-form-redirect text-secondary">
+            <a routerLink="addErp" class="text-secondary">More Info</a>
+        </div>
+    </div>
+    <br><br><br>
+    <div class="erp-form bg-primary">
+        <div class="erp-form-info">
+            <h3>{{ monthProfits }} MAD</h3>
+            <p>Month Profits</p>
+        </div>
+        <div class="erp-form-redirect text-secondary">
+            <a routerLink="addErp" class="text-secondary">More Info</a>
+        </div>
+    </div>
+
+    <div class="erp-form bg-warning">
+        <div class="erp-form-info">
+            <h3>{{ dayProfits }} MAD</h3>
+            <p>Day profits</p>
+        </div>
+        <div routerLink="addErp" class="erp-form-redirect">
+            <a routerLink="addErp" class="text-secondary">More Info</a>
+        </div>
+    </div>
+
+</div>

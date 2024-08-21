@@ -17,11 +17,12 @@ import { HeaderComponent } from './components/header/header.component';
 import { LossesPurchasesComponent } from './components/losses-purchases/losses-purchases.component';
 import { ShowLossesComponent } from './components/show-losses/show-losses.component';
 import { ShowPurchasesComponent } from './components/show-purchases/show-purchases.component';
+import { HomeComponent } from './components/home/home.component';
 
 const appRoutes: Routes = [
   { 
     path: '', 
-    component: AppComponent,
+    component: HomeComponent,
   },
   {
     path: 'erp',
@@ -43,7 +44,8 @@ const appRoutes: Routes = [
     HeaderComponent,
     LossesPurchasesComponent,
     ShowLossesComponent,
-    ShowPurchasesComponent
+    ShowPurchasesComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
