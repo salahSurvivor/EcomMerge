@@ -7,5 +7,9 @@ export interface Pcinfo{
     phone: string,
     purchase: number,
     sale: number,
+    status: string,
+    isConfirmed: boolean,
+    cancellationReason?: string,
+    orderDetails?: any,
     societeCode: string,
 }

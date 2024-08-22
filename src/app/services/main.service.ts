@@ -31,6 +31,15 @@ export class MainService {
     let params = { sCode: 'admin' };
     return this.http.get<any>('http://localhost:3000/ordersProfits', { params });
   }
+
+  getOrders(): Observable<Pcinfo[]>{
+    let params = { sCode: 'admin' };
+    return this.http.get<Pcinfo[]>(this.apiUrl, { params });
+  }
+
+  updatePurchase(pcinfo: Pcinfo, nb): Observable<Pcinfo>{
+    return this.http.put<Pcinfo>(this.apiUrl+ nb, pcinfo, httpOptions);
+  }
   //#endregion Orders
 
   //#region Losses

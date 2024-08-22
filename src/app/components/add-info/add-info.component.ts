@@ -52,6 +52,8 @@ export class AddInfoComponent {
       phone: this.phone,
       purchase: this.purchase,
       sale: this.sale,
+      status: 'In progress',
+      isConfirmed: false,
       societeCode: 'admin'
     }
 
