@@ -126,6 +126,7 @@ export class ShowErpComponent {
   }
 
   getSeverity(status) {
+    if (!status) {  return null; }
     switch (status.toLowerCase()) {
       case 'canceled':
         return 'danger';

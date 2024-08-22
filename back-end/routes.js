@@ -5,7 +5,13 @@ module.exports = app => {
     
     //#region Orders
 
+    app.get('/orders', ordersController.readData); // Read Data
+
     app.post('/orders', ordersController.createData); // Create Data
+    
+    app.put('/orders/:id', ordersController.updateData); // Update Data
+    
+    app.delete('/orders/:id', ordersController.deleteData); // Delete Data
 
     //#endregion Orders
 
