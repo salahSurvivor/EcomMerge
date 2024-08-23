@@ -1,5 +1,10 @@
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+
 body{
     background: rgb(245, 245, 245);
+    font-family: var(--font-family);
 }
 /*Start Our NavBar*/
 .navbar{
@@ -9,7 +14,7 @@ body{
 .navbar .nav-link{
     font-size: 1.1em;
 }
- 
+
 .navbar-nav{
     position: absolute;
     right: 100px;
@@ -142,7 +147,89 @@ body{
 }
 /*Pagination Edit End*/
 
+.my-col-6{
+    display: inline-block;
+}
+
+.my-col-6.input {
+    width: 70%;
+}
+
+.my-col-6.label {
+    font-weight: 500;
+    width: 30%;
+}
+
+.my-col-container{
+    margin: 0 0 16px 0;
+}
+
+.my-bold{
+    font-weight: bold;
+}
+
+.my-border{
+    font-weight: 600;
+    margin: 0 0 8px 0;
+}
+
+.actions{
+    text-align: end;
+    margin: auto;
+}
+
+.actions img{
+    width: 40px;
+    height: 40px;
+}
+
+.actions div{
+    cursor: pointer;
+    display: inline;
+    margin:  0px 3px;
+}
+
+.title{
+    display: inline-block;
+}
+
+.recap{
+    display: inline-block;
+    margin: 10px 25px;
+    text-align: center;
+}
+
+.recap-number{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.recap-libelle{
+    font-weight: 400;
+}
+
+.my-green{
+    color: #22C55E;
+}
+
+.my-reed{
+    color: #EF4444;
+}
+
+.my-grey{
+    color: rgb(126 126 126);
+}
+
+.first-section{
+    margin-top: 50px;
+    height: 12px;
+}
+
 @media(max-width: 992px){
+    .first-section{
+        height: 30px;
+    }
+
     .navbar-nav{
         position: relative;
         right: 0;
@@ -157,7 +244,7 @@ body{
         margin: 45px auto;
         width: 60%;
         display: block;
-    } 
+    }
 
     .home-container br{
         display: none;
