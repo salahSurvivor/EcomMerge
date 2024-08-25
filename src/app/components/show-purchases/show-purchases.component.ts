@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MainService } from 'src/app/services/main.service';
 import { Purchases } from 'src/app/purchases';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-show-purchases',
@@ -30,16 +31,18 @@ export class ShowPurchasesComponent {
       return;
     }
 
+    else if (!this.pr) { return; }
+
     this.mainService.getPurchases().subscribe((items) => 
-      this.purchases = items.filter((i) => i.dateP == this.pr)
+      this.purchases = items.filter((i) => 
+        formatDate(new Date(i.dateP), 'MM/dd/yyyy', 'en-US') == formatDate(new Date(this.pr), 'MM/dd/yyyy', 'en-US')
+      )
     )
   }
 
   deletePurchase(): void{
     this.mainService.deletePurchase(this.id).subscribe(() =>  {
-      console.log('1- this.purchases', this.purchases)
       this.purchases = this.purchases.filter((i) => i._id !== this.id)
-      console.log('2- this.purchases', this.purchases);
     }
 
     );

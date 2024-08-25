@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { MainService } from 'src/app/services/main.service';
 import { Losses } from 'src/app/losses';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-show-losses',
@@ -33,9 +34,12 @@ export class ShowLossesComponent implements OnChanges {
       return;
     }
 
+    if (!this.ls) { return; }
+
     this.mainService.getLosses().subscribe((items) => 
-      this.losses = items.filter((i) => i.date == this.ls)
-    )
+      this.losses = items.filter((i) => 
+        formatDate(new Date(i.date), 'MM/dd/yyyy', 'en-US') == formatDate(new Date(this.ls), 'MM/dd/yyyy', 'en-US')
+    ));
   }
 
   deleteLosses(){

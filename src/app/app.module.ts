@@ -17,8 +17,6 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -36,46 +34,65 @@ import { HomeErpComponent } from './components/home-erp/home-erp.component';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ButtonModule } from 'primeng/button';
 import { DeliveryComponent } from './components/delivery/delivery.component';
+import { LoginComponent } from './components/users/login/login.component';
+import { RegisterComponent } from './components/users/register/register.component';
+import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
+import { LoginGuard } from './guards/login.guard';
 
 
 const appRoutes: Routes = [
   { 
     path: '', 
     component: HomeComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: 'addErp',
-    component: HomeErpComponent
+    component: HomeErpComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: 'erp',
-    component: ErpComponent
+    component: ErpComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: 'losses-purchasses',
-    component: LossesPurchasesComponent
+    component: LossesPurchasesComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: 'delivery',
-    component: DeliveryComponent
+    component: DeliveryComponent,
+    canActivate: [LoginGuard]
   },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
+  }, 
 ];
 
 @NgModule({
   declarations: [
     AppComponent, 
+    HeaderComponent,
+    HomeComponent,
     ErpComponent,
+    ShowErpComponent,
     AddInfoComponent,
     AddLossesComponent,
     AddPurchasesComponent,
-    HeaderComponent,
     LossesPurchasesComponent,
     ShowLossesComponent,
     ShowPurchasesComponent,
-    HomeComponent,
-    ShowErpComponent,
     HomeErpComponent,
-    DeliveryComponent
+    DeliveryComponent,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     CheckboxModule,
@@ -83,8 +100,8 @@ const appRoutes: Routes = [
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule,
     NgxPaginationModule,
+    ReactiveFormsModule,
     InputMaskModule,
     CalendarModule,
     TableModule,
@@ -99,7 +116,12 @@ const appRoutes: Routes = [
     DropdownModule,
     RouterModule.forRoot(appRoutes, { enableTracing: false }),
   ],
-  providers: [ConfirmationService, MessageService],
+  providers: [
+    ConfirmationService, 
+    MessageService,
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
