@@ -55,6 +55,7 @@
         <th>Order Detail</th>
         <th>Status</th>
         <th>Confirmed</th>
+        <th>Invoice</th>
     </tr>
     <tr *ngFor="let item of items | paginate: { itemsPerPage: count, currentPage: p }">
         <td>{{ item.number }}</td>
@@ -83,6 +84,12 @@
                 data-bs-target="#update"
                 (click)="getId(item)">
             </i-->
+        </td>
+        <td>
+          <p-button 
+            (click)="invoice(item)"
+            icon="pi pi-file-pdf" 
+            styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
         </td>
 
 
