@@ -1,4 +1,6 @@
 const Order = require('../models/order.model.js');
+const Purchase = require('../models/purchase.model.js');
+const Losses = require('../models/losses.model.js');
 
 // read data
 exports.readData = async(req, res) => {
@@ -199,6 +201,21 @@ exports.calculProfits = async(req, res) => {
     if (data)
         res.status(200).json(data);
      
+  }
+  catch(err){
+      res.status(500).json(err.message);
+  }
+};
+
+exports.getDataForDelivery = async(req, res) => {
+  try{
+      const sCode = req.query.sCode;
+      const infos = await Order.find({ 
+        societeCode: sCode,
+        $or: [ { status: 'Confirmed' }, { status: "Delivered" }, {$and: [ { status: "Canceled" }, { isConfirmed: true } ] }], 
+        isConfirmed: true }).sort({ _id: -1 }).lean();
+
+      res.status(200).json(infos);
   }
   catch(err){
       res.status(500).json(err.message);

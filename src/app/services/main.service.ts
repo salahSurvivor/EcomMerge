@@ -22,8 +22,18 @@ export class MainService {
 
   constructor(private http: HttpClient) { }
 
-  //#region Orders
-  addOrder(data: Pcinfo): Observable<Pcinfo> {
+   //#region Orders
+   getOrders2(){
+    let params = { sCode: 'admin' };
+    return this.http.get<Pcinfo[]>(this.apiUrl, { params });
+  }
+
+  getOrders(): Observable<Pcinfo[]>{
+    let params = { sCode: 'admin' };
+    return this.http.get<Pcinfo[]>(this.apiUrl, { params });
+  }
+
+  addOrder(data: Pcinfo): Observable<Pcinfo>{
     return this.http.post<Pcinfo>(this.apiUrl, data);
   }
 
@@ -32,13 +42,13 @@ export class MainService {
     return this.http.get<any>('http://localhost:3000/ordersProfits', { params });
   }
 
-  getOrders(): Observable<Pcinfo[]>{
-    let params = { sCode: 'admin' };
-    return this.http.get<Pcinfo[]>(this.apiUrl, { params });
-  }
-
   updatePurchase(pcinfo: Pcinfo, nb): Observable<Pcinfo>{
     return this.http.put<Pcinfo>(this.apiUrl+ nb, pcinfo, httpOptions);
+  }
+
+  getDataForDelivery(): Observable<Pcinfo[]>{
+    let params = { sCode: 'admin' };
+    return this.http.get<Pcinfo[]>('http://localhost:3000/getDataForDelivery', { params });
   }
   //#endregion Orders
 

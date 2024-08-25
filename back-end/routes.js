@@ -13,6 +13,11 @@ module.exports = app => {
     
     app.delete('/orders/:id', ordersController.deleteData); // Delete Data
 
+    app.get('/ordersProfits', ordersController.calculProfits) // Calcul Profits
+
+    app.get('/getDataForDelivery', ordersController.getDataForDelivery) // Calcul Profits
+
+
     //#endregion Orders
 
      //#region Losses

@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Pcinfo } from 'src/app/pcinfo';
 import { MainService } from 'src/app/services/main.service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import * as XLSX from 'xlsx';
+import { Workbook } from 'exceljs';
 import * as ExcelJS from 'exceljs';
 import * as fs from 'file-saver';
-import { Workbook } from 'exceljs';
-import { formatDate } from '@angular/common';
 
 @Component({
-  selector: 'app-show-erp',
-  templateUrl: './show-erp.component.html',
-  styleUrls: ['./show-erp.component.css']
+  selector: 'app-delivery',
+  templateUrl: './delivery.component.html',
+  styleUrls: ['./delivery.component.css']
 })
-export class ShowErpComponent {
+export class DeliveryComponent implements OnChanges{
   p: number = 1;
   count: number = 6;
   id: number;
@@ -25,11 +26,8 @@ export class ShowErpComponent {
   saleEdit: number;
   items: Pcinfo[] = [];
   filters: Pcinfo[] = [];
-  search: any;
-  dt: string;
-  endDate: Date;
-  date: Date;
-  selectedStatus;
+  @Input() search: any;
+  @Input() dt: string;  
   //checked: boolean;
   confirmedOrderDate;
   confirmedOrderLocation;
@@ -48,43 +46,38 @@ export class ShowErpComponent {
     societeCode: ''
   };
   orderDetail = {
-    location: '',
-    date: Date,
+    location: null,
+    date: '',
     timeStart: '',
     timeEnd: '',
     description: ''
   };
-  statusList = [
-    { libelle: 'Delevered' },
-    { libelle: 'Confirmed' },
-    { libelle: 'Canceled' },
-  ];
+  visible: boolean = false;
+  orderDetailVisible: boolean = false;
+  date: Date;
+  endDate: Date;
+  itemsCopy;
   totalRecords = 0;
-  totalDelevered = 0;
-  totalCanceled = 0;
 
   constructor(private mainService: MainService,
     private confirmationService: ConfirmationService
-  ) { }
+  ){}
 
-  visible: boolean = false;
+  confirmOrderDetails(data) {
+    this.orderDetail = data?.orderDetails  || null;
+    this.orderDetail.date = this.orderDetail.date ? formatDate(new Date(this.orderDetail.date), 'MM/dd/yyyy', 'en-US') : '';
+    this.orderDetailVisible = true;
+  }
 
   showDialog(item) {
-    this.orderDetail = {
-      location: '',
-      date: Date,
-      timeStart: '',
-      timeEnd: '',
-      description: ''
-    };
     this.orderUpdate = null;
     this.orderUpdate = item;
     this.visible = true;
   }
-  itemsCopy;
-  ngOnInit(): void {
+
+  ngOnInit(): void{
     this.visible = false;
-    this.mainService.getOrders().subscribe((items) => {
+    this.mainService.getDataForDelivery().subscribe((items) => {
       this.items = items;
       this.itemsCopy = this.items;
       this.calculRecap(this.items);
@@ -92,41 +85,60 @@ export class ShowErpComponent {
     });
   }
 
-  calculRecap(data){
-    if (data && data.length > 0) {
-      let delivered = data.filter(vl => vl.status == 'Delivered');
-      let canceld = data.filter(vl => vl.status == 'Canceled');
-      this.totalRecords = data.length;
-      this.totalDelevered = delivered.length;
-      this.totalCanceled = canceld.length;
+  ngOnChanges(changes: SimpleChanges): void {
+    const srch = changes['search'];
+    const filter = changes['dt'];
+    if(this.dt == 'clear'){
+      this.ngOnInit();
+      return;
+    }
+    else if(filter) {
+      this.mainService.getOrders().subscribe((items) => {
+        this.items = items.filter((i) => {
+          if (!i.date || !this.dt) {
+            return;
+          }
+          formatDate(i.date, 'dd/MM/yyyy', 'en-US') == formatDate(this.dt, 'dd/MM/yyyy', 'en-US');
+        });
+      })
+
+    }
+    else if(srch){
+      this.mainService.getOrders().subscribe((items) => {
+          this.items = items.filter((i) => i.phone.includes(this.search))
+          this.items.sort((a, b) => b._id - a._id)
+        }
+      )
     }
   }
 
-  updateInfo(): void {
-    if (this.orderDetail && this.visible) {
-      this.orderUpdate.orderDetails = this.orderDetail;
-      this.orderUpdate.isConfirmed = true;
-      this.orderUpdate.status = 'Confirmed';
-    }
+  updateInfo(): void{
+    if (this.visible)
+      this.orderUpdate.status = 'Canceled';
+
     this.visible = false;
-    console.log('orderDetail', this.orderDetail);
     this.mainService.updatePurchase(this.orderUpdate, this.orderUpdate._id).subscribe(() => {
-      this.ngOnInit();
+        this.ngOnInit();
     });
 
     this.successShow = true;
   }
 
-  toggleSuccess(): void {
+  toggleSuccess(): void{
     this.successShow = !this.successShow;
   }
 
-  getId(order): void {
+  getId(order): void{
     this.orderUpdate = order;
   }
 
+  calculRecap(data){
+    if (data && data.length > 0) {
+      this.totalRecords = data.length;
+    }
+  }
+
   getSeverity(status) {
-    if (!status) {  return null; }
     switch (status.toLowerCase()) {
       case 'canceled':
         return 'danger';
@@ -142,23 +154,21 @@ export class ShowErpComponent {
 
   confirm(event: Event, data) {
     this.confirmationService.confirm({
-      target: event.target,
-      message: 'Are you sure that you want to cancel this order?',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.orderUpdate = data;
-        this.orderUpdate.isConfirmed = false;
-        this.orderUpdate.status = 'Canceled';
-        this.updateInfo();
-      },
+        target: event.target,
+        message: 'Is this order successfully delevered?',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.orderUpdate = data;
+            this.orderUpdate.status = 'Delivered';
+            this.updateInfo();
+        },
     });
   }
 
   //#region filter
-  clear(): void {
+  clear(): void{
     this.date = null;
     this.endDate = null;
-    this.selectedStatus = null;
     this.search = null;
     this.items = this.itemsCopy;
   }
@@ -166,27 +176,23 @@ export class ShowErpComponent {
   filter(): void {
     this.items = this.itemsCopy;
     if (this.date || this.endDate) {
-      this.items = this.items.filter((i) => {
-
-        // Ensure dates are present
-        if (!i.date || !this.date || !this.endDate) {
-          return false;
-        }
-
-        // Convert dates to comparable format
-        const orderDate = new Date(i.date);
-        const startDate = new Date(this.date);
-        const endDate = new Date(this.endDate);
-
-        // Check if order date is within the range
-        return orderDate >= startDate && orderDate <= endDate;
-      });
+        this.items = this.items.filter((i) => {
+    
+          // Ensure dates are present
+          if (!i.date || !this.date || !this.endDate) {
+            return false;
+          }
+    
+          // Convert dates to comparable format
+          const orderDate = new Date(i.date);
+          const startDate = new Date(this.date);
+          const endDate = new Date(this.endDate);
+    
+          // Check if order date is within the range
+          return orderDate >= startDate && orderDate <= endDate;
+        });
     }
-    if (this.selectedStatus) {
-      console.log('this.selectedStatus', this.selectedStatus.libelle);
-      this.items = this.items.filter(vl => vl.status == this.selectedStatus.libelle);
-    }
-    if (this.search) {
+    if(this.search){
       this.items = this.items.filter((i) => i.phone.includes(this.search))
       this.items.sort((a, b) => b._id - a._id)
     }
@@ -229,7 +235,7 @@ export class ShowErpComponent {
 
     let worksheet = workbook.addWorksheet('Voyage');
 
-    worksheet.getCell('A1').value = 'Orders';
+    worksheet.getCell('A1').value = 'Delivery';
     worksheet.getCell('A1').font = { name: 'Open Sans Extrabold', family: 4, size: 24, underline: 'none', bold: true };
     worksheet.getCell('F1').value = 'Date : ' + fullDate;
     worksheet.mergeCells('A1:C1');
@@ -255,12 +261,8 @@ export class ShowErpComponent {
     });
 
     for (let x1 of this.items) {
-
       if (x1.date) {
-
-        let dateX1: Date = new Date(x1.date);
-        if (dateX1.constructor == Date)
-          x1.date = formatDate(dateX1, 'dd/MM/yyyy', 'en-US');
+        x1.date = formatDate(x1.date, 'dd/MM/yyyy', 'en-US');
       }
 
       let data = {
@@ -287,7 +289,7 @@ export class ShowErpComponent {
       })
     }
 
-    let fname = "Orders";
+    let fname = "Delivery";
 
     //add data and file name and download
     workbook.xlsx.writeBuffer().then((data) => {
@@ -297,5 +299,7 @@ export class ShowErpComponent {
 
   }
   //#endregion excel
+
+
 
 }

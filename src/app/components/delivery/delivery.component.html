@@ -1,0 +1,198 @@
+<div class="first-section container">
+  <div class="row">
+    <div class="col-lg-6 recap-container">
+      <div class="recap">
+        <div class="recap-number">{{ totalRecords }}</div>
+        <div class="recap-libelle my-grey">Total records</div>
+      </div>
+      <!--div class="recap">
+        <div class="recap-number my-green">150</div>
+        <div class="recap-libelle my-green">Confirmed</div>
+      </div>
+      <div class="recap">
+        <div class="recap-number my-reed">150</div>
+        <div class="recap-libelle my-reed">Canceled</div>
+      </div-->
+    </div>
+  
+    <div class="col-lg-6 title actions">
+      <div class="add">
+          <img 
+              (click)="downloadExel()"
+              src="https://cloud.digiparc.com/assets/icon40/excel.svg"
+              alt="add" />
+      </div>
+      <div class="reload">
+         <img 
+              (click)="clear()"
+              src="https://cloud.digiparc.com/assets/icon40/refresh.svg" alt="reload" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="showErp-container container">
+    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Filter
+    </button>
+    <div class="search input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </span>
+        <input type="text" name="price" [(ngModel)]="search" (ngModelChange)="filter()"
+        class="form-control" placeholder="Phone Number" aria-label="Username" 
+        aria-describedby="basic-addon1">
+    </div>
+    
+<table>
+    <tr>
+        <th>N.C</th>
+        <th>Product Name</th>
+        <th>Date</th>
+        <th>City</th>
+        <th>Phone Number</th>
+        <th>Sale Price</th>
+        <th>Order Detail</th>
+        <th>Status</th>
+        <th>Confirmed</th>
+    </tr>
+    <tr *ngFor="let item of items | paginate: { itemsPerPage: count, currentPage: p }">
+        <td>{{ item.number }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.date | date:'dd/MM/yyyy' }}</td>
+        <td>{{ item.city }}</td>
+        <td>{{ item.phone }}</td>
+        <td>{{ item.purchase }} DH</td>
+        <td>
+          <p-button (onClick)="confirmOrderDetails(item)"  icon="pi pi-eye" styleClass="p-button-rounded p-button-success p-button-text"></p-button>
+        </td>
+        <td>
+          <p-tag [severity]="getSeverity(item.status)" [value]="item.status"></p-tag>
+        </td>
+
+        <td>
+          <p-toast></p-toast>
+          <p-confirmPopup></p-confirmPopup>
+          <span *ngIf="item.status == 'Confirmed'">
+            <p-button (onClick)="confirm($event, item)"  icon="pi pi-check" styleClass="p-button-rounded p-button-success p-button-text"></p-button>
+            <p-button (onClick)="showDialog(item)" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
+          </span>  
+          <!--i 
+                class="fa-solid fa-pen-to-square btn btn-info" 
+                data-bs-toggle="modal" 
+                data-bs-target="#update"
+                (click)="getId(item)">
+            </i-->
+        </td>
+
+
+    </tr>
+</table>
+
+<!--Including the pagination control.-->
+<div class="text-center">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<!--Success Section Start-->
+<div *ngIf="successShow" class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="fa-solid fa-check"></i>
+    Updated successfully !!
+    <button type="button" class="btn-close" (click)="toggleSuccess()"></button>
+  </div>
+<!--Success Section End-->     
+
+
+  <p-dialog header="Cancel the order" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+        <div>
+          <div class="my-col-container">
+            <label class="my-border">Order cancellation reason : </label>
+            <textarea class="form-control" [style]="{ width: '100%' }" [(ngModel)]="orderUpdate.cancellationReason" id="floatingTextarea2" style="height: 100px"></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="ngOnInit()">Close</button>
+          <button 
+            type="button" 
+            class="btn btn-danger text-white" 
+            (click)="updateInfo()">
+            Cancel
+          </button>
+        </div>
+
+</p-dialog>
+
+<p-dialog header="Order details" [modal]="true" [(visible)]="orderDetailVisible" [style]="{ width: '25rem' }">
+  <div>
+    <div class="my-col-container">
+      <div class="my-col-6 label">
+        <label for="username" class="font-weight-bold">Location</label>
+      </div>
+      <div class="my-col-6 input">
+        <input pInputText type="text" class="p-inputtext-sm" [style]="{ width: '100%' }" [(ngModel)]="orderDetail.location" disabled/>
+      </div>
+    </div>
+    <div class="my-col-container">
+      <div class="my-col-6 label">
+        <label for="username" class="font-weight-bold">Date</label>
+      </div>
+      <div class="my-col-6 input">
+        <input pInputText type="text" class="p-inputtext-sm" [style]="{ width: '100%' }" [(ngModel)]="orderDetail.date" disabled/>
+      </div>
+    </div>
+    <div class="my-col-container">
+      <div class="my-col-6 label">
+        <label for="username" class="font-weight-bold">Time start</label>
+      </div>
+      <div class="my-col-6 input">
+        <p-inputMask class="p-inputtext-sm" [style]="{ width: '100%' }"  mask="99:99" [(ngModel)]="orderDetail.timeStart" placeholder="" [disabled]="true"></p-inputMask>
+      </div>
+    </div>
+
+    <div class="my-col-container">
+      <div class="my-col-6 label">
+        <label for="username" class="font-weight-bold">Time end</label>
+      </div>
+      <div class="my-col-6 input">
+        <p-inputMask class="p-inputtext-sm" [style]="{ width: '100%' }"  mask="99:99" [(ngModel)]="orderDetail.timeEnd" placeholder="" [disabled]="true"></p-inputMask>
+      </div>
+    </div>
+    <div class="my-col-container">
+      <textarea class="form-control" [style]="{ width: '100%' }" placeholder="Description" [(ngModel)]="orderDetail.description" id="floatingTextarea2" style="height: 100px" disabled></textarea>
+    </div>
+
+  </div>
+
+</p-dialog>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Filter By Date</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="my-border">Start Date :</div>
+          <div class="input-group mb-3">
+              <input type="date" name="losses" [(ngModel)]="date" class="form-control" placeholder="Phone Number" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+
+          <div class="my-border">End Date :</div>
+          <div class="input-group mb-3">
+              <input type="date" name="losses" [(ngModel)]="endDate" class="form-control" placeholder="Phone Number" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info" (click)="clear()" data-bs-dismiss="modal">Clear</button>
+        <button type="button" class="btn btn-success text-white" data-bs-dismiss="modal" (click)="filter()">Filter</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+</div>

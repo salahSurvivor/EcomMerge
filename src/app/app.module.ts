@@ -35,6 +35,7 @@ import { ShowPurchasesComponent } from './components/show-purchases/show-purchas
 import { HomeErpComponent } from './components/home-erp/home-erp.component';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ButtonModule } from 'primeng/button';
+import { DeliveryComponent } from './components/delivery/delivery.component';
 
 
 const appRoutes: Routes = [
@@ -53,7 +54,11 @@ const appRoutes: Routes = [
   {
     path: 'losses-purchasses',
     component: LossesPurchasesComponent
-  }
+  },
+  {
+    path: 'delivery',
+    component: DeliveryComponent
+  },
 ];
 
 @NgModule({
@@ -69,7 +74,8 @@ const appRoutes: Routes = [
     ShowPurchasesComponent,
     HomeComponent,
     ShowErpComponent,
-    HomeErpComponent
+    HomeErpComponent,
+    DeliveryComponent
   ],
   imports: [
     CheckboxModule,
