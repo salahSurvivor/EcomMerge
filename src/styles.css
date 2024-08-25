@@ -239,11 +239,14 @@ body{
     margin: 10px 0;
 }
 
-.register-form img{
+.register-form .img{
     position: absolute;
     margin: 50px 100px;
-    width: 200px;
+    width: 300px;
     color: #fff;
+    font-style: oblique;
+    font-weight: 650;
+    font-size: 28px;
 }
 
 .register-form form{
