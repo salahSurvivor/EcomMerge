@@ -4,6 +4,7 @@ import { Losses } from '../losses';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Purchases } from '../purchases';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,16 +21,24 @@ export class MainService {
   private apiUrlLosses = ' http://localhost:3000/losses/';
   private Url = 'http://localhost:3000/purchases/';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private jwt: JwtHelperService,
+  ) {}
 
    //#region Orders
+  getUsername(){
+    const token = this.jwt.decodeToken(localStorage.getItem('token'));
+    return token?.name || '';
+  }
+
    getOrders2(){
-    let params = { sCode: 'admin' };
+    let params = { sCode: this.getUsername() };
     return this.http.get<Pcinfo[]>(this.apiUrl, { params });
   }
 
   getOrders(): Observable<Pcinfo[]>{
-    let params = { sCode: 'admin' };
+    let params = { sCode: this.getUsername() };
     return this.http.get<Pcinfo[]>(this.apiUrl, { params });
   }
 
@@ -38,7 +47,7 @@ export class MainService {
   }
 
   getOrdersProfits(): Observable<any>{
-    let params = { sCode: 'admin' };
+    let params = { sCode: this.getUsername() };
     return this.http.get<any>('http://localhost:3000/ordersProfits', { params });
   }
 
@@ -47,14 +56,14 @@ export class MainService {
   }
 
   getDataForDelivery(): Observable<Pcinfo[]>{
-    let params = { sCode: 'admin' };
+    let params = { sCode: this.getUsername() };
     return this.http.get<Pcinfo[]>('http://localhost:3000/getDataForDelivery', { params });
   }
   //#endregion Orders
 
   //#region Losses
   getLosses(): Observable<Losses[]>{
-    let params = { sCode: 'admin' };
+    let params = { sCode: this.getUsername() };
     return this.http.get<Losses[]>(this.apiUrlLosses, { params });
   }
 
@@ -69,7 +78,7 @@ export class MainService {
 
   //#region Purchases
   getPurchases(): Observable<Purchases[]>{
-    let params = { sCode: 'admin' };
+    let params = { sCode: this.getUsername() };
     return this.http.get<Purchases[]>(this.Url, { params });
   }
 

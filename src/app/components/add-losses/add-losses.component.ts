@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-add-losses',
@@ -15,6 +16,7 @@ export class AddLossesComponent {
   name: string;
   price: number;
   date =  formatDate(this.currentDate, 'yyyy-MM-dd', 'en-US');
+  username;
 
   lossesForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -22,14 +24,23 @@ export class AddLossesComponent {
       Validators.required,
       Validators.pattern("[1-9]([0-9]?)+(\.[0-9]?)?")
     ])
-  })
+  });
+
+  constructor(
+    private jwt: JwtHelperService,
+  ){}
+
+  ngOnInit() {
+    const token = this.jwt.decodeToken(localStorage.getItem('token'));
+    this.username = token.name;
+  }
 
   OnSubmit(): void{
     const data = {
       name: this.name,
       price: this.price,
       date: this.date,
-      societeCode: 'admin'
+      societeCode: this.username
     }
 
     this.addLosses.emit(data);

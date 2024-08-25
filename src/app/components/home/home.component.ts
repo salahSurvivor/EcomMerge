@@ -13,6 +13,7 @@ export class HomeComponent{
   totalMoney = 0;
   monthProfits = 0;
   dayProfits = 0;
+  username;
 
   ngOnInit(): void{
     this.mainService.getOrdersProfits().subscribe((dt) => {

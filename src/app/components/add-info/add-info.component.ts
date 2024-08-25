@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Pcinfo } from 'src/app/pcinfo';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-add-info',
@@ -19,6 +20,7 @@ export class AddInfoComponent {
   purchase: number;
   sale: number;
   showError: boolean = false;
+  username;
 
   infoForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -37,13 +39,20 @@ export class AddInfoComponent {
     ]),
   })
 
+  constructor(
+    private jwt: JwtHelperService,
+  ){}
+
+  ngOnInit() {
+    const token = this.jwt.decodeToken(localStorage.getItem('token'));
+    this.username = token.name;
+  }
+
   onSubmit(): void{
     if(Number(this.sale) > Number(this.purchase)){
       this.showError = true;
       return;
     }  
-
-
 
     const data: Pcinfo = {
       name: this.name,
@@ -54,7 +63,7 @@ export class AddInfoComponent {
       sale: this.sale,
       status: 'In progress',
       isConfirmed: false,
-      societeCode: 'admin'
+      societeCode: this.username
     }
 
     this.addInfo.emit(data);

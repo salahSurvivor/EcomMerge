@@ -55,7 +55,7 @@ export class ShowErpComponent {
     description: ''
   };
   statusList = [
-    { libelle: 'Delevered' },
+    { libelle: 'Delivered' },
     { libelle: 'Confirmed' },
     { libelle: 'Canceled' },
   ];

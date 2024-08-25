@@ -11,7 +11,7 @@ export class HomeErpComponent {
   dt: string;
   endDate: Date;
   statusList = [ 
-    { libelle: 'Delevered' },
+    { libelle: 'Delivered' },
     { libelle: 'Confirmed' },
     { libelle: 'Canceled' },
   ];

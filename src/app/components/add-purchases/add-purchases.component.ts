@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-add-purchases',
@@ -17,6 +18,7 @@ export class AddPurchasesComponent {
   quantityP: number;
   totalP: number;
   dateP = formatDate(this.qurrentDate, 'yyyy-MM-dd', 'en-US');
+  username;
 
   purchasesForm = new FormGroup({
     nameP: new FormControl('', Validators.required),
@@ -28,7 +30,16 @@ export class AddPurchasesComponent {
       Validators.required,
       Validators.pattern('[1-9]+([0-9]?)?')
     ])
-  })
+  });
+  
+  constructor(
+    private jwt: JwtHelperService,
+  ){}
+
+  ngOnInit() {
+    const token = this.jwt.decodeToken(localStorage.getItem('token'));
+    this.username = token.name;
+  }
   
   onSubmit(): void{
     const data = {
@@ -37,7 +48,7 @@ export class AddPurchasesComponent {
       quantityP: this.quantityP,
       totalP: this.priceP * this.quantityP,
       dateP: this.dateP,
-      societeCode: 'admin'
+      societeCode: this.username
     } 
 
     this.addP.emit(data);

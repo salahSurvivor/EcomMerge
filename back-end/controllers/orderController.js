@@ -186,7 +186,7 @@ exports.calculProfits = async(req, res) => {
         }
       ]);
     
-    let totalMoney = (totalAmounts[0]?.purchasesTotal || 0) - (totalPurchases[0]?.purchasesTotal || 0);
+    let totalMoney = (totalAmounts[0]?.purchasesTotal || 0) - (totalPurchases[0]?.purchasesTotal || 0) - (totalLosses[0]?.lossesTotal || 0);
     let totalProfits = (totalAmounts[0]?.purchasesTotal || 0) - (totalAmounts[0]?.saleTotal || 0) - (totalLosses[0]?.lossesTotal || 0);
     let monthProfits = (totalMonthAmounts[0]?.monthPofits || 0) - (totalLossesMonth[0]?.lossesTotal || 0);
     let dayProfits = (totalDayAmounts[0]?.dayProfits || 0) - (totalLossesDay[0]?.lossesTotal || 0);
